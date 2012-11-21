@@ -1,7 +1,4 @@
 * text=auto !eol
-/AUTHORS -text
-/LICENSE -text
-/README -text
 /afiro.mps -text
 /app0110.cor -text
 /app0110.stoch -text
