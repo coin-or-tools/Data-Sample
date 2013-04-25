@@ -6,6 +6,8 @@
 /app0110R.cor -text
 /app0110R.stoch -text
 /app0110R.time -text
+/atm_5_10_1.block -text
+/atm_5_10_1.mps -text
 /brandy.mps -text
 /bug.cor -text
 /bug.stoch -text
@@ -33,8 +35,12 @@
 /p0201.mps -text
 /p0548.mps -text
 /pack1.mps -text
+/retail3.block -text
+/retail3.mps -text
 /scOneInt.mps -text
 /share2qp.mps -text
 /tp3.mps -text
 /tp4.mps -text
 /tp5.mps -text
+/wedding_16.block -text
+/wedding_16.mps -text
