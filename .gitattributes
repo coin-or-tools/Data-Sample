@@ -18,6 +18,7 @@
 /config.sub -text
 /configure -text
 /configure.ac -text
+/conic.mps -text
 /depcomp -text
 /e226.mps -text
 /exmip1.5.mps -text
@@ -29,6 +30,7 @@
 /hello.mps -text
 /input.130 -text
 /install-sh -text
+/lseu.mps -text
 /ltmain.sh -text
 /missing -text
 /nw460.mps -text
