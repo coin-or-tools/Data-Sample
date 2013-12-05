@@ -30,24 +30,28 @@ AC_CONFIG_SRCDIR(configure.ac)
 # /usr/local.
 AC_PREFIX_DEFAULT([`pwd`])
 
-AC_COIN_PROJECTDIR_INIT(DataSample)
+#AC_COIN_PROJECTDIR_INIT(DataSample)
 
 #############################################################################
 #     We only need automake to generate Makefiles for the distribution      #
 #############################################################################
 
 # Initialize automake
-AC_COIN_INIT_AUTOMAKE
+#AC_COIN_INIT_AUTOMAKE
+AM_INIT_AUTOMAKE
+AM_MAINTAINER_MODE
 
 #############################################################################
 #Find out what the data files are and create links if this is a VPATH config#
 #############################################################################
 
-AC_COIN_EXAMPLE_FILES([*.mps])
-AC_COIN_EXAMPLE_FILES([*.lp])
-AC_COIN_EXAMPLE_FILES([*.block])
-AC_COIN_EXAMPLE_FILES([input.130])
-AC_COIN_EXAMPLE_FILES([app0110.* app0110R.* bug.*])
+# simpler implemenation of AC_COIN_EXAMPLE_FILES using AC_CONFIG_LINKS,
+# but can only call the macro once due to a bug in autoconf
+AC_COIN_EXAMPLE_FILES([*.mps *.lp *.block input.130 app0110.* app0110R.* bug.*])
+#AC_COIN_EXAMPLE_FILES([*.lp])
+#AC_COIN_EXAMPLE_FILES([*.block])
+#AC_COIN_EXAMPLE_FILES([input.130])
+#AC_COIN_EXAMPLE_FILES([app0110.* app0110R.* bug.*])
 
 ##############################################################################
 #                   Finishing up by writing all the output                   #
@@ -61,4 +65,5 @@ AC_SUBST(ABSBUILDDIR)
 AC_CONFIG_FILES([Makefile coindatasample.pc coindatasample-uninstalled.pc])
 
 # Finally, we let configure write all the output...
-AC_COIN_FINALIZE
+#AC_COIN_FINALIZE
+AC_OUTPUT
