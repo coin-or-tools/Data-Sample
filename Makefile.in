@@ -94,8 +94,7 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 DIST_COMMON = $(srcdir)/BuildTools/Makemain.inc $(srcdir)/Makefile.in \
 	$(srcdir)/Makefile.am $(top_srcdir)/configure \
-	$(am__configure_deps) $(srcdir)/coindatasample.pc.in \
-	$(srcdir)/coindatasample-uninstalled.pc.in compile \
+	$(am__configure_deps) $(srcdir)/coindatasample.pc.in compile \
 	config.guess config.sub depcomp install-sh missing ltmain.sh
 subdir = .
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
@@ -106,7 +105,7 @@ am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 am__CONFIG_DISTCLEAN_FILES = config.status config.cache config.log \
  configure.lineno config.status.lineno
 mkinstalldirs = $(install_sh) -d
-CONFIG_CLEAN_FILES = coindatasample.pc coindatasample-uninstalled.pc
+CONFIG_CLEAN_FILES = coindatasample.pc
 CONFIG_CLEAN_VPATH_FILES =
 AM_V_P = $(am__v_P_@AM_V@)
 am__v_P_ = $(am__v_P_@AM_DEFAULT_V@)
@@ -175,7 +174,6 @@ distuninstallcheck_listfiles = find . -type f -print
 am__distuninstallcheck_listfiles = $(distuninstallcheck_listfiles) \
   | sed 's|^\./|$(prefix)/|' | grep -v '$(infodir)/dir$$'
 distcleancheck_listfiles = find . -type f -print
-ABSBUILDDIR = @ABSBUILDDIR@
 ACLOCAL = @ACLOCAL@
 AMTAR = @AMTAR@
 AM_DEFAULT_VERBOSITY = @AM_DEFAULT_VERBOSITY@
@@ -183,11 +181,14 @@ AUTOCONF = @AUTOCONF@
 AUTOHEADER = @AUTOHEADER@
 AUTOMAKE = @AUTOMAKE@
 AWK = @AWK@
+COIN_DESTDIR = @COIN_DESTDIR@
 CYGPATH_W = @CYGPATH_W@
+DATASAMPLE_SVN_REV = @DATASAMPLE_SVN_REV@
 DEFS = @DEFS@
 ECHO_C = @ECHO_C@
 ECHO_N = @ECHO_N@
 ECHO_T = @ECHO_T@
+EXAMPLE_FILES = @EXAMPLE_FILES@
 INSTALL = @INSTALL@
 INSTALL_DATA = @INSTALL_DATA@
 INSTALL_PROGRAM = @INSTALL_PROGRAM@
@@ -226,6 +227,7 @@ datarootdir = @datarootdir@
 docdir = @docdir@
 dvidir = @dvidir@
 exec_prefix = @exec_prefix@
+have_svnversion = @have_svnversion@
 host_alias = @host_alias@
 htmldir = @htmldir@
 includedir = @includedir@
@@ -320,8 +322,6 @@ $(ACLOCAL_M4): @MAINTAINER_MODE_TRUE@ $(am__aclocal_m4_deps)
 	$(am__cd) $(srcdir) && $(ACLOCAL) $(ACLOCAL_AMFLAGS)
 $(am__aclocal_m4_deps):
 coindatasample.pc: $(top_builddir)/config.status $(srcdir)/coindatasample.pc.in
-	cd $(top_builddir) && $(SHELL) ./config.status $@
-coindatasample-uninstalled.pc: $(top_builddir)/config.status $(srcdir)/coindatasample-uninstalled.pc.in
 	cd $(top_builddir) && $(SHELL) ./config.status $@
 install-datacoinDATA: $(datacoin_DATA)
 	@$(NORMAL_INSTALL)

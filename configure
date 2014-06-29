@@ -594,7 +594,7 @@ ac_unique_file="configure.ac"
 ac_default_prefix=`pwd`
 ac_subst_vars='LTLIBOBJS
 LIBOBJS
-ABSBUILDDIR
+EXAMPLE_FILES
 MAINT
 MAINTAINER_MODE_FALSE
 MAINTAINER_MODE_TRUE
@@ -625,6 +625,9 @@ am__isrc
 INSTALL_DATA
 INSTALL_SCRIPT
 INSTALL_PROGRAM
+DATASAMPLE_SVN_REV
+have_svnversion
+COIN_DESTDIR
 target_alias
 host_alias
 build_alias
@@ -1739,7 +1742,114 @@ ac_compiler_gnu=$ac_cv_c_compiler_gnu
 # /usr/local.
 
 
-#AC_COIN_PROJECTDIR_INIT(DataSample)
+
+# figure out whether there is a base directory up from here
+coin_base_directory=
+if test -e ../coin_subdirs.txt ; then
+  coin_base_directory=`cd ..; pwd`
+elif test -e ../../coin_subdirs.txt ; then
+  coin_base_directory=`cd ../..; pwd`
+fi
+
+if test "x$coin_base_directory" != x ; then
+  COIN_DESTDIR=$coin_base_directory/coinstash
+fi
+
+
+# Set the project's version numbers
+
+
+cat >>confdefs.h <<_ACEOF
+#define DATASAMPLE_VERSION "$PACKAGE_VERSION"
+_ACEOF
+
+
+  coin_majorver=`echo $PACKAGE_VERSION | sed -n -e 's/^\([0-9]*\).*/\1/gp'`
+  coin_minorver=`echo $PACKAGE_VERSION | sed -n -e 's/^[0-9]*\.\([0-9]*\).*/\1/gp'`
+  coin_releasever=`echo $PACKAGE_VERSION | sed -n -e 's/^[0-9]*\.[0-9]*\.\([0-9]*\).*/\1/gp'`
+  if test "x$coin_majorver" = x ; then coin_majorver=9999 ; fi
+  if test "x$coin_minorver" = x ; then coin_minorver=9999 ; fi
+  if test "x$coin_releasever" = x ; then coin_releasever=9999 ; fi
+
+cat >>confdefs.h <<_ACEOF
+#define DATASAMPLE_VERSION_MAJOR $coin_majorver
+_ACEOF
+
+
+cat >>confdefs.h <<_ACEOF
+#define DATASAMPLE_VERSION_MINOR $coin_minorver
+_ACEOF
+
+
+cat >>confdefs.h <<_ACEOF
+#define DATASAMPLE_VERSION_RELEASE $coin_releasever
+_ACEOF
+
+
+  # We use the following variable to have a string with the upper case
+  # version of the project name
+  COIN_PRJCT=DATASAMPLE
+
+  # Set the project's SVN revision number. The complicated sed expression
+  # (made worse by quadrigraphs) ensures that things like 4123:4168MS end up
+  # as a single number.
+  # Extract the first word of "svnversion", so it can be a program name with args.
+set dummy svnversion; ac_word=$2
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5
+$as_echo_n "checking for $ac_word... " >&6; }
+if ${ac_cv_prog_have_svnversion+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+  if test -n "$have_svnversion"; then
+  ac_cv_prog_have_svnversion="$have_svnversion" # Let the user override the test.
+else
+as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
+for as_dir in $PATH
+do
+  IFS=$as_save_IFS
+  test -z "$as_dir" && as_dir=.
+    for ac_exec_ext in '' $ac_executable_extensions; do
+  if as_fn_executable_p "$as_dir/$ac_word$ac_exec_ext"; then
+    ac_cv_prog_have_svnversion="yes"
+    $as_echo "$as_me:${as_lineno-$LINENO}: found $as_dir/$ac_word$ac_exec_ext" >&5
+    break 2
+  fi
+done
+  done
+IFS=$as_save_IFS
+
+  test -z "$ac_cv_prog_have_svnversion" && ac_cv_prog_have_svnversion="no"
+fi
+fi
+have_svnversion=$ac_cv_prog_have_svnversion
+if test -n "$have_svnversion"; then
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: $have_svnversion" >&5
+$as_echo "$have_svnversion" >&6; }
+else
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+$as_echo "no" >&6; }
+fi
+
+
+  if test "x$have_svnversion" = xyes; then
+
+    svn_rev_tmp=`LANG=en_EN svnversion $srcdir 2>/dev/null`
+    if test "x$svn_rev_tmp" != xexported -a "x$svn_rev_tmp" != x -a "x$svn_rev_tmp" != "xUnversioned directory"; then
+      DATASAMPLE_SVN_REV=`echo $svn_rev_tmp | sed -n -e 's/^[0-9]*://' -e 's/\([0-9]\)[^0-9]*$/\1/p'`
+
+cat >>confdefs.h <<_ACEOF
+#define DATASAMPLE_SVN_REV $DATASAMPLE_SVN_REV
+_ACEOF
+
+    fi
+  fi
+
+
+
+# Capture libtool library version, if given.
+
+
+
 
 #############################################################################
 #     We only need automake to generate Makefiles for the distribution      #
@@ -2382,8 +2492,7 @@ fi
 #Find out what the data files are and create links if this is a VPATH config#
 #############################################################################
 
-# simpler implemenation of AC_COIN_EXAMPLE_FILES using AC_CONFIG_LINKS,
-# but can only call the macro once due to a bug in autoconf
+# simpler implemenation of AC_COIN_EXAMPLE_FILES using AC_CONFIG_LINKS
 
 #AC_REQUIRE([AC_COIN_CHECK_VPATH])
 #AC_REQUIRE([AC_COIN_ENABLE_MSVC])
@@ -2440,28 +2549,32 @@ done
 #done
 #
 #AC_SUBST(EXAMPLE_UNCOMPRESSED_FILES)
-#AC_SUBST(EXAMPLE_FILES)
+
 #AC_SUBST(EXAMPLE_CLEAN_FILES)
 
-#AC_COIN_EXAMPLE_FILES([*.lp])
-#AC_COIN_EXAMPLE_FILES([*.block])
-#AC_COIN_EXAMPLE_FILES([input.130])
-#AC_COIN_EXAMPLE_FILES([app0110.* app0110R.* bug.*])
 
 ##############################################################################
 #                   Finishing up by writing all the output                   #
 ##############################################################################
 
-ABSBUILDDIR="`pwd`"
-
-
 # Here list all the files that configure should create (except for the
 # configuration header file)
-ac_config_files="$ac_config_files Makefile coindatasample.pc coindatasample-uninstalled.pc"
+ac_config_files="$ac_config_files Makefile coindatasample.pc"
 
 
 # Finally, we let configure write all the output...
-#AC_COIN_FINALIZE
+
+# need to come before AC_OUTPUT
+if test "x$coin_subdirs" != x; then
+  # write coin_subdirs to a file so that project configuration knows where to find uninstalled projects
+  echo $coin_subdirs > coin_subdirs.txt
+else
+  # substitute for OBJDIR, needed to setup .pc file for uninstalled project
+  #ABSBUILDDIR="`pwd`"
+  #AC_SUBST(ABSBUILDDIR)
+  :
+fi
+
 cat >confcache <<\_ACEOF
 # This file is a shell script that caches the results of configure
 # tests run on this system so they can be shared between configure
@@ -3190,7 +3303,6 @@ do
     "$file") CONFIG_LINKS="$CONFIG_LINKS $file:$file" ;;
     "Makefile") CONFIG_FILES="$CONFIG_FILES Makefile" ;;
     "coindatasample.pc") CONFIG_FILES="$CONFIG_FILES coindatasample.pc" ;;
-    "coindatasample-uninstalled.pc") CONFIG_FILES="$CONFIG_FILES coindatasample-uninstalled.pc" ;;
 
   *) as_fn_error $? "invalid argument: \`$ac_config_target'" "$LINENO" 5;;
   esac
@@ -3682,4 +3794,15 @@ if test -n "$ac_unrecognized_opts" && test "$enable_option_checking" != no; then
   { $as_echo "$as_me:${as_lineno-$LINENO}: WARNING: unrecognized options: $ac_unrecognized_opts" >&5
 $as_echo "$as_me: WARNING: unrecognized options: $ac_unrecognized_opts" >&2;}
 fi
+
+
+{ $as_echo "$as_me:${as_lineno-$LINENO}: In case of trouble, first consult the troubleshooting page at https://projects.coin-or.org/BuildTools/wiki/user-troubleshooting" >&5
+$as_echo "$as_me: In case of trouble, first consult the troubleshooting page at https://projects.coin-or.org/BuildTools/wiki/user-troubleshooting" >&6;}
+#if test x$coin_projectdir = xyes; then
+  { $as_echo "$as_me:${as_lineno-$LINENO}: Configuration of $PACKAGE_NAME successful" >&5
+$as_echo "$as_me: Configuration of $PACKAGE_NAME successful" >&6;}
+#else
+#  AC_MSG_NOTICE([Main configuration of $PACKAGE_NAME successful])
+#fi
+
 
