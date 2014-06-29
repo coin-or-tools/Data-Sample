@@ -22,16 +22,8 @@ under the Eclipse Public License.])
 # whether the package is actually there
 AC_CONFIG_SRCDIR(configure.ac)
 
+# Do some generic initialization work.
 AC_COIN_PROJECTDIR_INITIALIZE(DataSample)
-
-#############################################################################
-#     We only need automake to generate Makefiles for the distribution      #
-#############################################################################
-
-# Initialize automake
-#AC_COIN_INIT_AUTOMAKE
-AM_INIT_AUTOMAKE
-AM_MAINTAINER_MODE
 
 #############################################################################
 #Find out what the data files are and create links if this is a VPATH config#
