@@ -8,6 +8,8 @@
 /app0110R.time -text
 /atm_5_10_1.block -text
 /atm_5_10_1.mps -text
+/block_milp.dec -text
+/block_milp.lp -text
 /brandy.mps -text
 /bug.cor -text
 /bug.stoch -text
