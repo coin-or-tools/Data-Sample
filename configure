@@ -2503,6 +2503,58 @@ done
 
 
 
+files=`cd $srcdir; ls *.dec`
+# We need to do the following loop to make sure that are no newlines
+# in the variable
+for file in $files; do
+  EXAMPLE_FILES="$EXAMPLE_FILES $file"
+done
+if test $coin_vpath_config = yes; then
+  lnkcmd=
+  if test "$enable_msvc" = yes; then
+    lnkcmd=cp
+  fi
+  case "$CC" in
+    clang* ) ;;
+    cl* | */cl* | CL* | */CL* | icl* | */icl* | ICL* | */ICL*)
+      lnkcmd=cp ;;
+  esac
+  if test "x$lnkcmd" = xcp; then
+    { echo "$as_me:$LINENO: Copying example files (*.dec)" >&5
+echo "$as_me: Copying example files (*.dec)" >&6;}
+  else
+    { echo "$as_me:$LINENO: Creating links to the example files (*.dec)" >&5
+echo "$as_me: Creating links to the example files (*.dec)" >&6;}
+    lnkcmd="$LN_S"
+  fi
+  for file in $EXAMPLE_FILES; do
+    rm -f $file
+    $lnkcmd $srcdir/$file $file
+  done
+  EXAMPLE_CLEAN_FILES="$EXAMPLE_CLEAN_FILES *.dec"
+else
+  EXAMPLE_CLEAN_FILES="$EXAMPLE_CLEAN_FILES"
+fi
+
+# In case there are compressed files, we create a variable with the
+# uncompressed names
+EXAMPLE_UNCOMPRESSED_FILES=
+for file in $EXAMPLE_FILES; do
+  case $file in
+    *.gz)
+      EXAMPLE_UNCOMPRESSED_FILES="$EXAMPLE_UNCOMPRESSED_FILES `echo $file | sed -e s/.gz//`"
+      ;;
+  esac
+done
+
+
+
+
+
+
+
+
+
 files=`cd $srcdir; ls input.130`
 # We need to do the following loop to make sure that are no newlines
 # in the variable

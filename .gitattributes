@@ -1,4 +1,6 @@
 * text=auto !eol
+/BlockMilp.dec -text
+/BlockMilp.lp -text
 /afiro.mps -text
 /app0110.cor -text
 /app0110.stoch -text
