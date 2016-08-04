@@ -12032,7 +12032,7 @@ fi
 #AC_REQUIRE([AC_COIN_ENABLE_MSVC])
 #AC_REQUIRE([AC_PROG_LN_S])
 
-files=`cd $srcdir; ls *.mps *.lp *.block input.130 app0110.* app0110R.* bug.*`
+files=`cd $srcdir; ls *.mps *.lp *.block *.dec input.130 app0110.* app0110R.* bug.*`
 # We need to do the following loop to make sure that there are no newlines
 # in the variable
 for file in $files; do
@@ -12057,16 +12057,16 @@ done
 #      lnkcmd=cp ;;
 #  esac
 #  if test "x$lnkcmd" = xcp; then
-#    AC_MSG_NOTICE([Copying example files (*.mps *.lp *.block input.130 app0110.* app0110R.* bug.*)])
+#    AC_MSG_NOTICE([Copying example files (*.mps *.lp *.block *.dec input.130 app0110.* app0110R.* bug.*)])
 #  else
-#    AC_MSG_NOTICE([Creating links to the example files (*.mps *.lp *.block input.130 app0110.* app0110R.* bug.*)])
+#    AC_MSG_NOTICE([Creating links to the example files (*.mps *.lp *.block *.dec input.130 app0110.* app0110R.* bug.*)])
 #    lnkcmd="$LN_S"
 #  fi
 #  for file in $EXAMPLE_FILES; do
 #    rm -f $file
 #    $lnkcmd $srcdir/$file $file
 #  done
-#  EXAMPLE_CLEAN_FILES="$EXAMPLE_CLEAN_FILES *.mps *.lp *.block input.130 app0110.* app0110R.* bug.*"
+#  EXAMPLE_CLEAN_FILES="$EXAMPLE_CLEAN_FILES *.mps *.lp *.block *.dec input.130 app0110.* app0110R.* bug.*"
 #else
 #  EXAMPLE_CLEAN_FILES="$EXAMPLE_CLEAN_FILES"
 #fi

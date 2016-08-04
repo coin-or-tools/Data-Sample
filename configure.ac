@@ -30,7 +30,7 @@ AC_COIN_PROJECTDIR_INITIALIZE(DataSample)
 #############################################################################
 
 # simpler implemenation of AC_COIN_EXAMPLE_FILES using AC_CONFIG_LINKS
-AC_COIN_EXAMPLE_FILES([*.mps *.lp *.block input.130 app0110.* app0110R.* bug.*])
+AC_COIN_EXAMPLE_FILES([*.mps *.lp *.block *.dec input.130 app0110.* app0110R.* bug.*])
 
 ##############################################################################
 #                   Finishing up by writing all the output                   #
