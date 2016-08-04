@@ -23,7 +23,7 @@ under the Eclipse Public License.])
 AC_CONFIG_SRCDIR(configure.ac)
 
 # Do some generic initialization work.
-AC_COIN_PROJECTDIR_INITIALIZE(DataSample)
+AC_COIN_INITIALIZE(DataSample)
 
 #############################################################################
 #Find out what the data files are and create links if this is a VPATH config#
