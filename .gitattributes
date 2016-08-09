@@ -15,6 +15,7 @@
 /bug.stoch -text
 /bug.time -text
 /coindatasample.pc.in -text
+/compile -text
 /config.guess -text
 /config.sub -text
 /configure -text
