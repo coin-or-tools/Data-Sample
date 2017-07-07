@@ -10,7 +10,8 @@
 #                       Names and other basic things                        #
 #############################################################################
 
-AC_INIT([DataSample],[trunk],[https://projects.coin-or.org/BuildTools/])
+AC_INIT([DataSample],[trunk],[buildtools@list.coin-or.org],[datasample],
+	[https://projects.coin-or.org/BuildTools/])
 
 AC_COPYRIGHT([
 Copyright 2006 International Business Machines and others.
@@ -20,25 +21,35 @@ under the Eclipse Public License.])
 
 # List one file in the package so that the configure script can test
 # whether the package is actually there
+
 AC_CONFIG_SRCDIR(configure.ac)
 
 # Do some generic initialization work.
+
 AC_COIN_INITIALIZE(DataSample)
 
+# Check for libz. The hidden assumption is that if libz is present, code will
+# use it to read compressed (.gz) files. If it's not present, or disabled with
+# --disable-zlib, uncompressed copies of compressed files will be created when
+# make is run.
+
+AC_COIN_CHECK_ZLIB
+
 #############################################################################
-#Find out what the data files are and create links if this is a VPATH config#
+#                      Specify the data files                               #
 #############################################################################
 
-# simpler implemenation of AC_COIN_EXAMPLE_FILES using AC_CONFIG_LINKS
-AC_COIN_EXAMPLE_FILES([*.mps *.lp *.block *.dec input.130 app0110.* app0110R.* bug.*])
+AC_COIN_EXAMPLE_FILES([*.mps *.mps.gz afiro.* *.lp galenet.mps *.block])
+AC_COIN_EXAMPLE_FILES([*.dec input.130 app0110.* bug.time app0110R.* bug.*])
 
-##############################################################################
-#                   Finishing up by writing all the output                   #
-##############################################################################
+#############################################################################
+#                   Finish up by writing all the output                     #
+#############################################################################
 
-# Here list all the files that configure should create (except for the
-# configuration header file)
+# Specify the files that configure should generate from template (.in) files.
+
 AC_CONFIG_FILES([Makefile coindatasample.pc])
 
-# Finally, we let configure write all the output...
+# Finally, we let configure write all the output ...
+
 AC_COIN_FINALIZE

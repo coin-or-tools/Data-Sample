@@ -104,6 +104,11 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
+
+# If this is a VPATH build, we'll create links in the build directory from
+# files in the source directory, and we'll need to clean them up when we're
+# done.
+@COIN_VPATH_BUILD_TRUE@am__append_1 = $(EXAMPLE_DIST_FILES)
 subdir = .
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/acinclude.m4 \
@@ -173,24 +178,38 @@ AUTOCONF = @AUTOCONF@
 AUTOHEADER = @AUTOHEADER@
 AUTOMAKE = @AUTOMAKE@
 AWK = @AWK@
+CC = @CC@
+CCDEPMODE = @CCDEPMODE@
+CFLAGS = @CFLAGS@
+CPP = @CPP@
+CPPFLAGS = @CPPFLAGS@
 CYGPATH_W = @CYGPATH_W@
 DATASAMPLE_SVN_REV = @DATASAMPLE_SVN_REV@
 DEFS = @DEFS@
+DEPDIR = @DEPDIR@
 ECHO_C = @ECHO_C@
 ECHO_N = @ECHO_N@
 ECHO_T = @ECHO_T@
-EXAMPLE_FILES = @EXAMPLE_FILES@
+EGREP = @EGREP@
+EXAMPLE_CLEAN_FILES = @EXAMPLE_CLEAN_FILES@
+EXAMPLE_DIST_FILES = @EXAMPLE_DIST_FILES@
+EXAMPLE_UNCOMP_FILES = @EXAMPLE_UNCOMP_FILES@
+EXEEXT = @EXEEXT@
+GREP = @GREP@
 INSTALL = @INSTALL@
 INSTALL_DATA = @INSTALL_DATA@
 INSTALL_PROGRAM = @INSTALL_PROGRAM@
 INSTALL_SCRIPT = @INSTALL_SCRIPT@
 INSTALL_STRIP_PROGRAM = @INSTALL_STRIP_PROGRAM@
+LDFLAGS = @LDFLAGS@
 LIBOBJS = @LIBOBJS@
 LIBS = @LIBS@
+LN_S = @LN_S@
 LTLIBOBJS = @LTLIBOBJS@
 MAINT = @MAINT@
 MAKEINFO = @MAKEINFO@
 MKDIR_P = @MKDIR_P@
+OBJEXT = @OBJEXT@
 PACKAGE = @PACKAGE@
 PACKAGE_BUGREPORT = @PACKAGE_BUGREPORT@
 PACKAGE_NAME = @PACKAGE_NAME@
@@ -207,7 +226,10 @@ abs_builddir = @abs_builddir@
 abs_srcdir = @abs_srcdir@
 abs_top_builddir = @abs_top_builddir@
 abs_top_srcdir = @abs_top_srcdir@
+ac_ct_CC = @ac_ct_CC@
+am__include = @am__include@
 am__leading_dot = @am__leading_dot@
+am__quote = @am__quote@
 am__tar = @am__tar@
 am__untar = @am__untar@
 bindir = @bindir@
@@ -256,34 +278,31 @@ AUTOMAKE_OPTIONS = foreign
 ########################################################################
 #                List files that should be distributed                 #
 ########################################################################
-EXTRA_DIST = $(EXAMPLE_FILES)
-
-# Take care of updating externals (if Dependencies file exists)
-#if HAVE_EXTERNALS
-#$(top_builddir)/Makefile: .Dependencies-stamp
-#
-#.Dependencies-stamp: $(srcdir)/Dependencies
-#	cd $(srcdir); BuildTools/set_externals Dependencies
-#	touch .Dependencies-stamp
-#
-#update-externals: .Dependencies-stamp
-#	cd $(srcdir); svn update
-#
-#endif
-
-#if HAVE_EXTERNALS
-#EXTRA_DIST += Dependencies
-#DISTCLEANFILES += .Dependencies-stamp
-#endif
-DISTCLEANFILES = $(EXAMPLE_CLEAN_FILES) $(VPATH_DISTCLEANFILES)
+EXTRA_DIST = $(EXAMPLE_DIST_FILES)
 datacoindir = $(datadir)/coin/Data/Sample
-datacoin_DATA = $(EXAMPLE_FILES)
+@COIN_HAS_ZLIB_FALSE@datacoin_DATA = $(EXAMPLE_UNCOMP_FILES)
+
+# If zlib is available, install compressed files. If zlib is not available,
+# install uncompressed copies of compressed files. EXAMPLE_DIST_FILES and
+# EXAMPLE_UNCOMP_FILES are identical except that any `.gz' suffixes are
+# stripped from names in EXAMPLE_UNCOMP_FILES. EXAMPLE_CLEAN_FILES (below)
+# is exactly the set of names that have been stripped of `.gz'.
+@COIN_HAS_ZLIB_TRUE@datacoin_DATA = $(EXAMPLE_DIST_FILES)
 pkgconfiglibdir = $(libdir)/pkgconfig
 pkgconfiglib_DATA = coindatasample.pc
 DocFiles = README AUTHORS LICENSE
 DocInstallDir = $(datadir)/coin/doc/$(PACKAGE_NAME)
 COIN_HAS_DOXYGEN = @COIN_HAS_DOXYGEN_TRUE@TRUE
 COIN_HAS_LATEX = @COIN_HAS_LATEX_TRUE@TRUE
+
+########################################################################
+#           Build and clean actions                                    #
+########################################################################
+
+# We always need to clean these files, which are uncompressed copies of
+# compressed files, created when zlib is not available.
+CLEANFILES = $(EXAMPLE_CLEAN_FILES) $(am__append_1)
+@COIN_VPATH_BUILD_TRUE@MORE_PHONY = $(EXAMPLE_DIST_FILES)
 all: all-am
 
 .SUFFIXES:
@@ -400,11 +419,11 @@ install-strip:
 mostlyclean-generic:
 
 clean-generic:
+	-test -z "$(CLEANFILES)" || rm -f $(CLEANFILES)
 
 distclean-generic:
 	-test -z "$(CONFIG_CLEAN_FILES)" || rm -f $(CONFIG_CLEAN_FILES)
 	-test . = "$(srcdir)" || test -z "$(CONFIG_CLEAN_VPATH_FILES)" || rm -f $(CONFIG_CLEAN_VPATH_FILES)
-	-test -z "$(DISTCLEANFILES)" || rm -f $(DISTCLEANFILES)
 
 maintainer-clean-generic:
 	@echo "This command is intended for maintainers to use"
@@ -476,7 +495,8 @@ ps: ps-am
 
 ps-am:
 
-uninstall-am: uninstall-datacoinDATA uninstall-pkgconfiglibDATA
+uninstall-am: uninstall-datacoinDATA uninstall-local \
+	uninstall-pkgconfiglibDATA
 
 .MAKE: install-am install-strip
 
@@ -490,7 +510,7 @@ uninstall-am: uninstall-datacoinDATA uninstall-pkgconfiglibDATA
 	install-ps-am install-strip installcheck installcheck-am \
 	installdirs maintainer-clean maintainer-clean-generic \
 	mostlyclean mostlyclean-generic pdf pdf-am ps ps-am tags-am \
-	uninstall uninstall-am uninstall-datacoinDATA \
+	uninstall uninstall-am uninstall-datacoinDATA uninstall-local \
 	uninstall-pkgconfiglibDATA
 
 .PRECIOUS: Makefile
@@ -523,15 +543,21 @@ clean-doxygen-docs:
 install-doxygen-docs: doxygen-docs
 	if test "$(COIN_HAS_DOXYGEN)" = TRUE; then \
 	  if test -d "doxydoc/"; then \
-	    test -d "$(DESTDIR)$(DocInstallDir)/doxydoc" || $(mkdir_p) "$(DESTDIR)$(DocInstallDir)/doxydoc"; \
-	    $(INSTALL_DATA) @coin_doxy_tagname@ "$(DESTDIR)$(DocInstallDir)/@coin_doxy_tagname@";\
+	    test -d "$(DESTDIR)$(DocInstallDir)/doxydoc" || \
+	         $(mkdir_p) "$(DESTDIR)$(DocInstallDir)/doxydoc"; \
+	    $(INSTALL_DATA) @coin_doxy_tagname@ \
+	        "$(DESTDIR)$(DocInstallDir)/@coin_doxy_tagname@";\
 	    if test -f "doxydoc/latex/refman.pdf"; then \
-	      $(INSTALL_DATA) doxydoc/latex/refman.pdf "$(DESTDIR)$(DocInstallDir)";\
+	      $(INSTALL_DATA) doxydoc/latex/refman.pdf \
+	          "$(DESTDIR)$(DocInstallDir)";\
 	    fi;\
 	    if test -d "doxydoc/html"; then \
-	      test -d "$(DESTDIR)$(DocInstallDir)/doxydoc/search/" || $(mkdir_p) "$(DESTDIR)$(DocInstallDir)/doxydoc/search/"; \
-	      $(INSTALL_DATA) doxydoc/html/*.* "$(DESTDIR)$(DocInstallDir)/doxydoc";\
-	      $(INSTALL_DATA) doxydoc/html/search/*.* "$(DESTDIR)$(DocInstallDir)/doxydoc/search";\
+	      test -d "$(DESTDIR)$(DocInstallDir)/doxydoc/search/" || \
+	           $(mkdir_p) "$(DESTDIR)$(DocInstallDir)/doxydoc/search/"; \
+	      $(INSTALL_DATA) doxydoc/html/*.* \
+	          "$(DESTDIR)$(DocInstallDir)/doxydoc";\
+	      $(INSTALL_DATA) doxydoc/html/search/*.* \
+	          "$(DESTDIR)$(DocInstallDir)/doxydoc/search";\
             fi;\
           fi;\
         fi
@@ -543,52 +569,16 @@ uninstall-doxygen-docs:
 	if test -f "$(DESTDIR)$(DocInstallDir)/refman.pdf"; then \
 	  rm -f "$(DESTDIR)$(DocInstallDir)/refman.pdf"; \
 	fi
-
-all-doxygen-docs:
-	for dir in $(subdirs) ; do \
-	  do_project=true;\
-	  for proj in $(COIN_SKIP_DOXYGEN); do\
-	    if test $$dir = $$proj; then\
-	      do_project=false;\
-	    fi;\
-	  done;\
-	  if test -r $$dir/doxydoc & $$do_project = true; then \
-	    (cd $$dir ; $(MAKE) doxygen-docs) \
-	  fi ; \
-	done ; 
-
-clean-all-doxygen-docs:
-	for dir in $(subdirs) ; do \
-	  if test -r $$dir/doxydoc ; then \
-	    (cd $$dir ; $(MAKE) clean-doxygen-docs) \
-	  fi ; \
-	done ; 
-
-install-all-doxygen-docs: all-doxygen-docs
-	for dir in $(subdirs) ; do \
-	  do_project=true;\
-	  for proj in $(COIN_SKIP_DOXYGEN); do\
-	    if test $$dir = $$proj; then\
-	      do_project=false;\
-	    fi;\
-	  done;\
-	  if test -r $$dir/doxydoc & $$do_project = true; then \
-	    (cd $$dir ; $(MAKE) install-doxygen-docs) \
-	  fi ; \
-	done ; 
-
-uninstall-all-doxygen-docs:
-	for dir in $(subdirs) ; do \
-	  if test -r $$dir/doxydoc ; then \
-	    (cd $$dir ; $(MAKE) uninstall-doxygen-docs) \
-	  fi ; \
-	done ; 
+	rmdir "$(DESTDIR)$(DocInstallDir)"
 
 install-doc: $(DocFiles)
 	test -z "$(DocInstallDir)" || $(mkdir_p) "$(DESTDIR)$(DocInstallDir)"
 	for file in $(DocFiles); do \
 	  if test -f "$$file"; then dir=; else dir="$(srcdir)/"; fi; \
-	  if test -f "$$dir$$file"; then $(INSTALL_DATA) "$$dir$$file" "$(DESTDIR)$(DocInstallDir)/$$file"; fi; \
+	  if test -f "$$dir$$file"; then \
+	    $(INSTALL_DATA) "$$dir$$file" \
+	        "$(DESTDIR)$(DocInstallDir)/$$file"; \
+	  fi; \
 	done
 
 uninstall-doc:
@@ -623,10 +613,46 @@ uninstall-doc:
 @MAINTAINER_MODE_TRUE@$(AUX_DIR)/ltmain.sh: $(BUILDTOOLSDIR)/ltmain.sh
 @MAINTAINER_MODE_TRUE@	cp $< $@
 
-.PHONY: install-doc uninstall-doc update-externals
+.PHONY: install-doc uninstall-doc \
+	doxygen-docs pdf-doxygen-docs clean-doxygen-docs \
+	install-doxygen-docs uninstall-doxygen-docs
 
 test:
 	@echo "No test available."
+
+# The files of EXAMPLE_DIST_FILES must be phony targets.  Otherwise, make
+# considers the file found in the source directory to be sufficient and doesn't
+# create the link.  This becomes a problem because `make install' now feels
+# it should invoke the rule for each file prior to installation. Hence the
+# guard to check if the file is already present.
+
+@COIN_VPATH_BUILD_TRUE@$(EXAMPLE_DIST_FILES):
+@COIN_VPATH_BUILD_TRUE@	@test -f $@  || $(LN_S) $(srcdir)/$@ $@
+
+########################################################################
+#           Extra uninstall actions                                    #
+########################################################################
+
+# Remove the directory created at installation
+
+uninstall-local:
+	@if test -d $(datacoindir) ; then rmdir $(datacoindir) ; fi
+
+########################################################################
+#           Extra targets for uncompressing the .gz files              #
+########################################################################
+
+# If configure has determined that libz can be used, compressed files can
+# be read and we don't have to uncompress. Otherwise, uncompress the files.
+# EXAMPLE_CLEAN_FILES contains just the names of compressed files, stripped
+# of the .gz suffix. This will trigger creation of an uncompressed copy.
+# This target creates uncompressed files without deleting the original
+# compressed files.
+
+$(EXAMPLE_CLEAN_FILES):
+	gzip -d -c $(srcdir)/$@.gz > $@
+
+.PHONY: $(MORE_PHONY)
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
