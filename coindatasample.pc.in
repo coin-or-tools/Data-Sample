@@ -1,6 +1,6 @@
 prefix=@prefix@
 datarootdir=@datarootdir@
-datadir=@datadir@/coin/data/Sample
+datadir=@datadir@/@PACKAGE_TARNAME@
 
 Name: Sample
 Description: Sample models

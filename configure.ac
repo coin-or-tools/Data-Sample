@@ -10,7 +10,7 @@
 #                       Names and other basic things                        #
 #############################################################################
 
-AC_INIT([DataSample],[trunk],[buildtools@list.coin-or.org],[datasample],
+AC_INIT([Sample],[trunk],[buildtools@list.coin-or.org],[coin-or-sample],
 	[https://projects.coin-or.org/BuildTools/])
 
 AC_COPYRIGHT([
@@ -26,7 +26,7 @@ AC_CONFIG_SRCDIR(configure.ac)
 
 # Do some generic initialization work.
 
-AC_COIN_INITIALIZE(DataSample)
+AC_COIN_INITIALIZE(Sample)
 
 # Check for libz. The hidden assumption is that if libz is present, code will
 # use it to read compressed (.gz) files. If it's not present, or disabled with
