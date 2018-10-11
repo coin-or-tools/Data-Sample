@@ -221,6 +221,10 @@ PACKAGE_TARNAME = @PACKAGE_TARNAME@
 PACKAGE_URL = @PACKAGE_URL@
 PACKAGE_VERSION = @PACKAGE_VERSION@
 PATH_SEPARATOR = @PATH_SEPARATOR@
+SAMPLE_CFLAGS_PUB = @SAMPLE_CFLAGS_PUB@
+SAMPLE_DATA_PUB = @SAMPLE_DATA_PUB@
+SAMPLE_LFLAGS_PUB = @SAMPLE_LFLAGS_PUB@
+SAMPLE_PCFILES_PUB = @SAMPLE_PCFILES_PUB@
 SAMPLE_SVN_REV = @SAMPLE_SVN_REV@
 SET_MAKE = @SET_MAKE@
 SHELL = @SHELL@
@@ -310,7 +314,7 @@ DocFiles = README AUTHORS LICENSE
 COIN_HAS_DOXYGEN = @COIN_HAS_DOXYGEN_TRUE@TRUE
 COIN_HAS_LATEX = @COIN_HAS_LATEX_TRUE@TRUE
 
-# Needless to say, it's important that doxydocdir_nosub not be a target for
+# Needless to say, it's important that baredocdir_nosub not be a target for
 # autoconf substitution.
 DOXYTAG_EDIT = sed -e 's|@baredocdir_nosub@|$(datarootdir)/doc|g'
 
