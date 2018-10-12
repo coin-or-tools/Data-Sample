@@ -29,7 +29,7 @@ AC_CONFIG_SRCDIR(configure.ac)
 AC_COIN_INITIALIZE(Sample)
 
 # # Initialise variables for Sample. All we're after here is the default
-# data directory for substitution on coindatasample.pc.in.
+# data directory for substitution in coindatasample.pc.in.
 
 AC_COIN_INIT_LIBVARS([Sample])
 

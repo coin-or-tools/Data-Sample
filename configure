@@ -3027,7 +3027,7 @@ fi
 
 
 # # Initialise variables for Sample. All we're after here is the default
-# data directory for substitution on coindatasample.pc.in.
+# data directory for substitution in coindatasample.pc.in.
 
 
   SAMPLE_LFLAGS_PUB=""

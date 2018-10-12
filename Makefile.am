@@ -8,6 +8,8 @@
 
 AUTOMAKE_OPTIONS = foreign
 
+include BuildTools/Makemain.inc
+
 ########################################################################
 #                List files that should be distributed                 #
 ########################################################################
@@ -30,8 +32,6 @@ endif
 
 pkgconfiglibdir = $(libdir)/pkgconfig
 pkgconfiglib_DATA = coindatasample.pc
-
-include BuildTools/Makemain.inc
 
 test:
 	@echo "No test available."
