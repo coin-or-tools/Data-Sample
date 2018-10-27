@@ -14,7 +14,7 @@
 #
 # Copyright 2006 International Business Machines and others.
 # All Rights Reserved.
-# This file is part of the open source package Coin which is distributed
+# This file is part of the open source package BuildTools which is distributed
 # under the Eclipse Public License.
 ## -------------------- ##
 ## M4sh Initialization. ##
@@ -1481,7 +1481,7 @@ gives unlimited permission to copy, distribute and modify it.
 
 Copyright 2006 International Business Machines and others.
 All Rights Reserved.
-This file is part of the open source package Coin which is distributed
+This file is part of the open source package BuildTools which is distributed
 under the Eclipse Public License.
 _ACEOF
   exit
@@ -3026,7 +3026,7 @@ fi
 
 
 
-# # Initialise variables for Sample. All we're after here is the default
+# Initialise variables for Sample. All we're after here is the default
 # data directory for substitution in coindatasample.pc.in.
 
 

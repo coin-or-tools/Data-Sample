@@ -16,7 +16,7 @@ AC_INIT([Sample],[trunk],[buildtools@list.coin-or.org],[coin-or-sample],
 AC_COPYRIGHT([
 Copyright 2006 International Business Machines and others.
 All Rights Reserved.
-This file is part of the open source package Coin which is distributed
+This file is part of the open source package BuildTools which is distributed
 under the Eclipse Public License.])
 
 # List one file in the package so that the configure script can test whether
@@ -28,7 +28,7 @@ AC_CONFIG_SRCDIR(configure.ac)
 
 AC_COIN_INITIALIZE(Sample)
 
-# # Initialise variables for Sample. All we're after here is the default
+# Initialise variables for Sample. All we're after here is the default
 # data directory for substitution in coindatasample.pc.in.
 
 AC_COIN_INIT_LIBVARS([Sample])
