@@ -1,6 +1,6 @@
 prefix=@prefix@
 datarootdir=@datarootdir@
-datadir=@SAMPLE_DATA_PUB@
+datadir=${datarootdir}/@PACKAGE_TARNAME@
 
 Name: Sample
 Description: Sample models
