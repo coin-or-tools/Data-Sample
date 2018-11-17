@@ -494,8 +494,7 @@ RHS
     RHS       000086             15.   000088              1.
 ENDATA
 NAME          SHARE2B
-*QSECTION
-QUADOBJ
+QSECTION
     010101    010101      0.8849E+01
     010101    010105      0.6270E+01
     010101    010408      0.5408E+01
