@@ -11,7 +11,7 @@
 #############################################################################
 
 AC_INIT([Sample],[trunk],[buildtools@list.coin-or.org],[coin-or-sample],
-	[https://projects.coin-or.org/BuildTools/])
+	[https://github.com/coin-or-tools/Data-Sample])
 
 AC_COPYRIGHT([
 Copyright 2006 International Business Machines and others.

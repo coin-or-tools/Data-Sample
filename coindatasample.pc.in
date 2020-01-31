@@ -1,10 +1,11 @@
-prefix=@prefix@
+@COIN_RELOCATABLE_FALSE@prefix=@prefix@
+@COIN_RELOCATABLE_TRUE@prefix=${pcfiledir}/../..
 datarootdir=@datarootdir@
 datadir=${datarootdir}/@PACKAGE_TARNAME@
 
 Name: Sample
 Description: Sample models
-URL: https://projects.coin-or.org/svn/Data/Sample
+URL: https://github.com/coin-or-tools/Data-Sample
 Version: @PACKAGE_VERSION@
 Libs:
 Cflags:
