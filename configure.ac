@@ -9,8 +9,7 @@
 #                       Names and other basic things                        #
 #############################################################################
 
-AC_INIT([Sample],[trunk],[buildtools@list.coin-or.org],[coin-or-sample],
-	[https://github.com/coin-or-tools/Data-Sample])
+AC_INIT([Sample],[trunk],[https://github.com/coin-or-tools/Data-Sample/issues/new],[coin-or-sample],[https://github.com/coin-or-tools/Data-Sample])
 
 AC_COPYRIGHT([
 Copyright 2006 International Business Machines and others.
