@@ -2357,7 +2357,7 @@ if test $coin_vpath_config = yes; then
     lnkcmd=cp
   fi
   case "$CC" in
-    clang* ) ;;
+    clang* | */clang* ) ;;
     cl* | */cl* | CL* | */CL* | icl* | */icl* | ICL* | */ICL*)
       lnkcmd=cp ;;
   esac
@@ -2409,7 +2409,7 @@ if test $coin_vpath_config = yes; then
     lnkcmd=cp
   fi
   case "$CC" in
-    clang* ) ;;
+    clang* | */clang* ) ;;
     cl* | */cl* | CL* | */CL* | icl* | */icl* | ICL* | */ICL*)
       lnkcmd=cp ;;
   esac
@@ -2461,7 +2461,7 @@ if test $coin_vpath_config = yes; then
     lnkcmd=cp
   fi
   case "$CC" in
-    clang* ) ;;
+    clang* | */clang* ) ;;
     cl* | */cl* | CL* | */CL* | icl* | */icl* | ICL* | */ICL*)
       lnkcmd=cp ;;
   esac
@@ -2513,7 +2513,7 @@ if test $coin_vpath_config = yes; then
     lnkcmd=cp
   fi
   case "$CC" in
-    clang* ) ;;
+    clang* | */clang* ) ;;
     cl* | */cl* | CL* | */CL* | icl* | */icl* | ICL* | */ICL*)
       lnkcmd=cp ;;
   esac
@@ -2565,7 +2565,7 @@ if test $coin_vpath_config = yes; then
     lnkcmd=cp
   fi
   case "$CC" in
-    clang* ) ;;
+    clang* | */clang* ) ;;
     cl* | */cl* | CL* | */CL* | icl* | */icl* | ICL* | */ICL*)
       lnkcmd=cp ;;
   esac
@@ -2617,7 +2617,7 @@ if test $coin_vpath_config = yes; then
     lnkcmd=cp
   fi
   case "$CC" in
-    clang* ) ;;
+    clang* | */clang* ) ;;
     cl* | */cl* | CL* | */CL* | icl* | */icl* | ICL* | */ICL*)
       lnkcmd=cp ;;
   esac
@@ -2675,7 +2675,7 @@ echo "$as_me:$LINENO: checking which command should be used to link input files"
 echo $ECHO_N "checking which command should be used to link input files... $ECHO_C" >&6
 coin_link_input_cmd="$LN_S"
 case "$CC" in
-  clang* ) ;;
+  clang* | */clang* ) ;;
   cl* | */cl* | CL* | */CL* | icl* | */icl* | ICL* | */ICL*)
     coin_link_input_cmd=cp ;;
 esac
@@ -2689,7 +2689,7 @@ if test x$coin_skip_ac_output != xyes; then
   # library extension
 
   case "$CC" in
-    clang* )
+    clang* | */clang* )
          LIBEXT=a ;;
     cl* | */cl* | CL* | */CL* | icl* | */icl* | ICL* | */ICL*)
          LIBEXT=lib ;;
